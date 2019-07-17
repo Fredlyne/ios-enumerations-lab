@@ -8,11 +8,49 @@ Fork and clone this repo. On your fork, answer and commit the follow questions. 
 a) Define an enumeration called `iOSDeviceType` with member values `iPhone`, `iPad`, `iWatch`. Create a variable called `myDevice` and assign it one member value.
 
 b) Adjust your code above so that `iPhone` and `iPad` have associated values of type String which represents the model number, eg: `iPhone("6 Plus")`. Use a switch case and let syntax to print out the model number of each device.
+```//a
+enum iOSDeviceTypes {
+case iPhone
+case iWatch
+case iPad
+}
+var myDevicer = iOSDeviceTypes.iPad
 
+//b
+enum iOSDeviceType {
+case iPhone(String)
+case iPad(String)
+case iWatch(Int)
+func printDescription() {
+switch self {
+case .iPhone(let modelType):
+print("This is an iPhone \(modelType)")
+case .iPad(let modelType):
+print("This is an iPad \(modelType)")
+case .iWatch(let versionNumber):
+print("This is an iWatch \(versionNumber)")
+}
+}
+}
+
+let myDevice = iOSDeviceType.iWatch(3)
+myDevice.printDescription()
+
+let myOtherDevice = iOSDeviceType.iPhone("7+")
+myOtherDevice.printDescription()
+```
 
 ## Question 2
 
 a) Write an enum called `Shape` and give it cases for `triangle`, `rectangle`, `square`, `pentagon`, and `hexagon`.
+```enum Shape: Int {
+case triangle
+case rectangle
+case  square 
+case pentagon
+case hexagon 
+}
+```
 
 b) Write a method inside `Shape` that returns how many sides the shape has. Create a variable called `myFavoritePolygon` and assign it to one of the shapes above, then print out how many sides it has.
 
@@ -34,18 +72,35 @@ You are working on a game in which your character is exploring a grid-like map. 
 - A step .left will decrease the x coordinate by 1.
 - Print the final location of the character after all the steps have been taken.
 
-```swift
-enum Direction {
-    case up
-    case down
-    case left
-    case right
+```enum Direction: String {
+case up
+case down
+case left
+case right
 }
 
 var location = (x: 0, y: 0)
 var steps: [Direction] = [.up, .up, .left, .down, .left]
+//the above two are needed as references(using the enum above that created the type Direction which is of type String
+//x, y are the ways in which the direction is set...x being lateral directions and y being horizontal directions
+//steps array is used as an iterator to iterate through the for loop below.
+for theway in steps {
+print("The current location is at x: \(location.x) and y: \(location.y)")
+print("I am about to go \(theway)")
+switch theway {
+case .up:
+location.y += 1
+case .down:
+location.y -= 1
+case .left:
+location.x -= 1
+case .right:
+location.x += 1
+}
+}
 
-// your code here
+print("The final location is: \(location)")
+
 ```
 
 
@@ -58,7 +113,46 @@ b) Define an enumeration named `MatchResult` with three members: `.win`, `.draw`
 c) Write a function called `match` that takes two `HandShapes` and returns a `MatchResult`. It should return the outcome for the first player (the one with the first hand shape).
 
 Hint: Rock beats scissors, paper beats rock, scissor beats paper
+```
+enum HandShape {
+case rock
+case paper
+case scissors
+}
 
+enum MatchResult {
+case win
+case draw
+case lose
+}
+
+
+func match(firstShape: HandShape, secondShape: HandShape) -> MatchResult {
+switch firstShape {
+case .rock:
+switch secondShape {
+case .rock: return .draw
+case .paper: return .lose
+case .scissors: return .win
+}
+case .paper:
+switch secondShape {
+case .rock: return .win
+case .paper: return .draw
+case .scissors: return .lose
+}
+case .scissors:
+switch secondShape {
+case .rock: return .lose
+case .paper: return .win
+case .scissors: return .draw
+}
+}
+}
+
+match(firstShape: .scissors, secondShape: .rock)
+
+```
 
 ## Question 6
 
